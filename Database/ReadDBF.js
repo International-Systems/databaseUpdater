@@ -4,7 +4,7 @@ const Parser = require('node-dbf').default;
 class ReadDBF {
     constructor(tableName) {
         
-        this.parser = new Parser(__dirname + `/Storage/${tableName}.DBF`);     
+        this.parser = new Parser(`${global.pathDB}${tableName}.DBF`);     
         this.tableName = tableName;
     }
     

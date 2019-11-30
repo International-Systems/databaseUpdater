@@ -1,2 +1,2 @@
-node "F:\00 - Projects\databaseUpdater\index" %~dp0
+node "C:\Program Files\databaseUpdater\index" %~dp0
 pause

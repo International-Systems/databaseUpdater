@@ -9,9 +9,13 @@ module.exports = {
     finish: async (empnum, ticket) => {
         return await finish(empnum, ticket);
     },
+    sent: async (empnum, ticket) => {
+        return await sent(empnum, ticket);
+    },
     clear: async () => {
         return await clear();
     },
+    
     getByEmpnum: async (empnum) => {
         return await getByEmpnum(empnum);
     },
@@ -21,6 +25,10 @@ module.exports = {
     getAll: async () => {
         return await getAll();
     },
+    getForPerpetual: async () => {
+        return await getForPerpetual();
+    },
+    
     getEfficiency: async (empnum, ticket) => {
         return await getEfficiency(empnum, ticket);
     }
@@ -44,6 +52,17 @@ async function finish(empnum, ticket) {
         resolve(await db.execute(pool, sqlQuery, values));
     });
 }
+
+async function sent(empnum, ticket) {
+    return new Promise(async (resolve) => {
+        let sqlQuery = "UPDATE public.scans SET  is_sent=true"
+            + " WHERE empnum = $1 AND ticket = $2;";
+        let values = [empnum, ticket];
+        resolve(await db.execute(pool, sqlQuery, values));
+    });
+}
+
+
 
 async function clear() {
     return new Promise(async (resolve) => {
@@ -91,7 +110,15 @@ async function getEfficiency(empnum, ticket) {
 
 async function getAll() {
     return new Promise(async (resolve) => {
-        let sqlQuery = "SELECT * FROM public.scans;";
+        let sqlQuery = "SELECT * FROM public.scans_pst;";
+        let values = [];
+        resolve(await db.execute(pool, sqlQuery, values));
+    });
+}
+
+async function getForPerpetual() {
+    return new Promise(async (resolve) => {
+        let sqlQuery = "SELECT * FROM public.scans_perpetual;";
         let values = [];
         resolve(await db.execute(pool, sqlQuery, values));
     });
