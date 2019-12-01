@@ -48,12 +48,12 @@ function generateFile(scan) {
     const date = ((finishDate.getMonth() > 8) ? (finishDate.getMonth() + 1) : ('0' + (finishDate.getMonth() + 1))) + '/' + ((finishDate.getDate() > 9) ? finishDate.getDate() : ('0' + finishDate.getDate())) + '/' + finishDate.getFullYear();
     const time = finishDate.toTimeString().split(' ')[0];
 
-    const sequence = `${client}-${operation}-${ticket}`;
+    const sequence = `${operation}-${bundle}`;
     const fileName = `${sequence}.txt`;
 
 
     let fileContent = "sequence	date	time	empnum	bundle	opcode	processed \n";
-    fileContent += `${sequence}	${date}	${time}	${empnum}	${bundle}	${operation}	`;
+    fileContent += `${sequence} ${date}	${time}	${empnum}	${bundle}	${operation}	`;
     fs.writeFile(pathPerpetual + '/' + fileName, fileContent, async function (err) {
         if (err) throw err;
         await scansDAO.sent(empnum, ticket);
